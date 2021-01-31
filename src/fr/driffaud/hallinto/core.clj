@@ -1,17 +1,13 @@
 (ns fr.driffaud.hallinto.core
   (:gen-class)
-  (:require [compojure.route :refer [not-found]]
-            [compojure.core :refer [defroutes GET]]
+  (:require [compojure.core :refer [defroutes GET]]
             [org.httpkit.server :as server]
-            [ring.handler.dump :refer [handle-dump]]
-            [ring.util.response :as ring-resp]))
+            [fr.driffaud.hallinto.request-handler :as handler]))
 
 ;; =============================================================================
 ;; Routing
 (defroutes app
-  (GET "/" [] (ring-resp/response "App server running."))
-  (GET "/request-dump" [] handle-dump)
-  (not-found "<p>Page not found.</p>"))
+  (GET "/" [] handler/home))
 
 ;; =============================================================================
 ;; System
