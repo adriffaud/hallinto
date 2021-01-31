@@ -1,0 +1,5 @@
+{:deps    {io.pedestal/pedestal.service {:mvn/version "0.5.8"}
+           io.pedestal/pedestal.jetty   {:mvn/version "0.5.8"}
+           org.clojure/clojure          {:mvn/version "1.10.2"}}
+ :aliases {:uberjar {:extra-deps {uberdeps/uberdeps {:mvn/version "1.0.4"}}
+                     :main-opts  ["-m" "uberdeps.uberjar"]}}}

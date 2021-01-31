@@ -1,0 +1,9 @@
+# Calva generated
+.calva/
+.clj-kondo/
+.cpcache/
+.lsp/
+.nrepl-port
+
+# Build
+target/
