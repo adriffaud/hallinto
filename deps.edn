@@ -1,4 +1,20 @@
 {:paths ["src"]
- :deps  {compojure/compojure {:mvn/version "1.6.2"}
-         http-kit/http-kit   {:mvn/version "2.3.0"}
-         org.clojure/clojure {:mvn/version "1.10.2"}}}
+ :deps  {org.clojure/clojure                 {:mvn/version "1.10.2"}
+
+         ;; Web app
+         http-kit/http-kit                   {:mvn/version "2.3.0"}
+         ring/ring-core                      {:mvn/version "1.8.2"}
+         ring/ring-devel                     {:mvn/version "1.8.2"}
+         compojure/compojure                 {:mvn/version "1.6.2"}
+         hiccup/hiccup                       {:mvn/version "1.0.5"}
+
+         ;; Database
+         seancorfield/next.jdbc              {:mvn/version "1.1.613"}
+         camel-snake-kebab/camel-snake-kebab {:mvn/version "0.4.2"}}
+
+ :aliases {:uberjar
+           {:replace-deps {seancorfield/depstar {:mvn/version "2.0.171"}}
+            :exec-fn      hf.depstar/uberjar
+            :exec-args    {:jar        "target/hallinto.jar"
+                           :aot        true
+                           :main-class fr.driffaud.hallinto.core}}}}

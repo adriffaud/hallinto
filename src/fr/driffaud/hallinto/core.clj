@@ -2,12 +2,15 @@
   (:gen-class)
   (:require [compojure.route :refer [not-found]]
             [compojure.core :refer [defroutes GET]]
-            [org.httpkit.server :as server]))
+            [org.httpkit.server :as server]
+            [ring.handler.dump :refer [handle-dump]]
+            [ring.util.response :as ring-resp]))
 
 ;; =============================================================================
 ;; Routing
 (defroutes app
-  (GET "/" [] {:status 200 :body "App server running."})
+  (GET "/" [] (ring-resp/response "App server running."))
+  (GET "/request-dump" [] handle-dump)
   (not-found "<p>Page not found.</p>"))
 
 ;; =============================================================================
