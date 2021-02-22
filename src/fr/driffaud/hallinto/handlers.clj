@@ -5,13 +5,13 @@
 
 ;; ============================================================================
 ;; Pages
-(defn home [_request db]
+(defn home [db]
   (response
    (selmer/render-file "templates/index.html"
                        {:accounts (data/list-accounts db)
                         :debug    true})))
 
-(defn account-form [_request]
+(defn account-form []
   (response
    "Nothing here at the moment"))
 
