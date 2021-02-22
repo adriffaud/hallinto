@@ -1,6 +1,5 @@
 (ns fr.driffaud.hallinto.datalevin
-  (:require [clojure.tools.logging :as log]
-            [com.stuartsierra.component :as component]
+  (:require [com.stuartsierra.component :as component]
             [datalevin.core :as d]))
 
 ;; =============================================================================
@@ -37,4 +36,4 @@
          [?e :account/name ?name]
          [?e :account/bank ?b]
          [?b :bank/name ?bank]]
-       (:connection database)))
+       @(:connection database)))
