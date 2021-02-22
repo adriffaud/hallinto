@@ -1,50 +1,26 @@
 (ns fr.driffaud.hallinto.core
   (:gen-class)
-  (:require [compojure.core :refer [defroutes GET]]
-            [org.httpkit.server :as server]
-            [fr.driffaud.hallinto.request-handler :as handler]))
+  (:require [com.stuartsierra.component :as component]
+            [fr.driffaud.hallinto.datalevin :as db]
+            [fr.driffaud.hallinto.server :as server]))
 
-;; =============================================================================
-;; Routing
-(defroutes app
-  (GET "/" [] handler/home))
+(defn hallinto [port]
+  (component/system-map
+   :db (db/new-database (or (System/getenv "HALLINTO_DATA_DIR")
+                            "database"))
+   :app (component/using (server/new-web-server port)
+                         [:db])))
 
-;; =============================================================================
-;; System
-(defonce app-server-instance (atom nil))
-
-(defn app-server-stop
-  "Gracefully shutdown the server, waiting 100ms"
-  []
-  (when-not (nil? @app-server-instance)
-    (@app-server-instance :timeout 100)
-    (reset! app-server-instance nil)
-    (println "INFO: Application server shutting down...")))
-
-(defn app-server-start
-  "Starts the application server an run the application"
-  [port]
-  (println "INFO: Starting server on port: " port)
-  (reset! app-server-instance
-          (server/run-server #'app {:port port})))
-
-(defn -main
-  "Start the application server on a specific port"
-  [& [port]]
-  (let [port (Integer. (or port
-                           (System/getenv "PORT")
-                           8080))]
-    (app-server-start port)))
-
-(defn app-server-restart
-  "Convenience function to stop and start application server"
-  []
-  (app-server-stop)
-  (-main))
+(defn main [] (-> (Integer. (or (System/getenv "PORT")
+                                8080))
+                  hallinto
+                  component/start))
 
 ;; =============================================================================
 ;; REPL
 (comment
-  (app-server-restart)
+  (def system (hallinto 8080))
 
-  (app-server-stop))
+  (alter-var-root #'system component/start)
+
+  (alter-var-root #'system component/stop))
