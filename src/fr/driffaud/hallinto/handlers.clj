@@ -8,8 +8,11 @@
 (defn home [db]
   (response
    (selmer/render-file "templates/index.html"
-                       {:accounts (data/list-accounts db)
-                        :debug    true})))
+                       {:accounts (data/list-accounts db)})))
+
+(defn account [_db id]
+  (println id)
+  (response "OK"))
 
 (defn account-form []
   (response

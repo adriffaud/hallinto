@@ -12,6 +12,7 @@
   (wrap-error-page
    (routes
     (GET "/" [] (handlers/home db))
+    (GET "/account/:id" [id] (handlers/account db id))
     (GET "/account-form" [] (handlers/account-form))
     (not-found "Page not found"))))
 

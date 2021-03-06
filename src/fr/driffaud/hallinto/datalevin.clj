@@ -30,10 +30,17 @@
 ;; =============================================================================
 ;; Database queries
 (defn list-accounts [database]
-  (d/q '[:find ?name ?bank
-         :in $
+  (-> (d/q '[:find (pull ?e [:bank/name
+                             {:account/_bank [:db/id :account/name]}])
+             :where
+             [?e :bank/name ?name]]
+           @(:connection database))
+      first))
+
+(defn get-account [database id]
+  (d/q '[:find (pull ?e [*])
+         :in $ ?id
          :where
-         [?e :account/name ?name]
-         [?e :account/bank ?b]
-         [?b :bank/name ?bank]]
-       @(:connection database)))
+         [?e :db/id ?id]]
+       @(:connection database)
+       id))
