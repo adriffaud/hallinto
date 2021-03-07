@@ -18,5 +18,10 @@
   (response
    "Nothing here at the moment"))
 
+(defn tracks [_db]
+  (response
+   (selmer/render-file "templates/tracks/index.html"
+                       {:tracks []})))
+
 (comment
   (selmer/parse-file "templates/index.html" {}))

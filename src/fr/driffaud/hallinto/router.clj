@@ -12,8 +12,10 @@
   (wrap-error-page
    (routes
     (GET "/" [] (handlers/home db))
+    (GET "/accounts" [] (handlers/home db))
     (GET "/account/:id" [id] (handlers/account db id))
     (GET "/account-form" [] (handlers/account-form))
+    (GET "/tracks" [] (handlers/tracks db))
     (not-found "Page not found"))))
 
 (defrecord Router [db]
