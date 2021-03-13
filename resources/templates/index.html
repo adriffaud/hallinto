@@ -1,35 +1,27 @@
-<!DOCTYPE html>
-<html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hallinto</title>
-    <style>
-      table {
-        border-collapse: collapse;
-      }
-    </style>
-  </head>
-  <body>
-    <nav>
-      <a href="/">Home</a>
-      <a href="/accounts">Comptes</a>
-      <a href="/tracks">Sport</a>
-    </nav>
+{% extends "templates/base.html" %}
 
-    <h1 class="title">Comptes</h1>
-    <a class="button" href="/account-form">Ajouter un compte</a>
+{% block header %}
+<nav>
+  <a href="/">Accueil</a>
+  <a href="/accounts">Comptes</a>
+  <a href="/tracks">Sport</a>
+</nav>
 
-    {% for bank in accounts %}
-    <h2>{{bank.bank/name}}</h2>
-    <ul>
-      {% for account in bank.account/_bank %}
-      <li>
-        <a href="/account/{{account.db/id}}">{{account.account/name}}</a>
-      </li>
-      {% endfor %}
-    </ul>
-    {% endfor %}
-  </body>
-</html>
+<h1 class="title">Comptes</h1>
+{% endblock %}
+
+{% block content %}
+<a class="button" href="/account-form">Ajouter un compte</a>
+
+{% for bank in accounts %}
+<h2>{{bank.bank/name}}</h2>
+<ul>
+  {% for account in bank.account/_bank %}
+  <li>
+    <a href="/account/{{account.db/id}}">{{account.account/name}}</a>
+  </li>
+  {% endfor %}
+</ul>
+{% endfor %}
+
+{% endblock %}

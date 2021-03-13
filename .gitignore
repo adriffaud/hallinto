@@ -6,6 +6,7 @@
 .nrepl-port
 
 # Build
+classes/
 target/
 
 # Datalevin DB

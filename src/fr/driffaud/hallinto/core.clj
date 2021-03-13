@@ -17,15 +17,18 @@
             (server/new-web-server port)
             [:router])))
 
-(defn main [] (-> (or (System/getenv "PORT")
-                      8080)
-                  Integer.
-                  hallinto
-                  component/start))
+(defn -main [& _args]
+  (-> (or (System/getenv "PORT")
+          8080)
+      Integer.
+      hallinto
+      component/start))
 
 ;; =============================================================================
 ;; REPL
 (comment
+  (selmer.parser/cache-off!)
+
   (def system (hallinto 8080))
 
   (alter-var-root #'system component/start)
