@@ -1,13 +1,1 @@
-# Calva generated
-.calva/
-.clj-kondo/
-.cpcache/
-.lsp/
-.nrepl-port
-
-# Build
-classes/
-target/
-
-# Datalevin DB
-database
+hallinto
