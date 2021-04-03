@@ -1,0 +1,3 @@
+#!/bin/bash
+
+./tmp/hallinto -user <user> -password <password>
