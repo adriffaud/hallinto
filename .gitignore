@@ -1,3 +1,6 @@
-/hallinto
-/tmp
-run.sh
+.calva
+.cpcache
+.lsp
+.nrepl-port
+
+database/
