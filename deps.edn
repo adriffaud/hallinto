@@ -1,3 +1,5 @@
 {:paths ["src"]
- :deps  {com.datomic/dev-local {:mvn/version "0.9.232"}
-         org.clojure/data.zip  {:mvn/version "1.0.0"}}}
+ :deps  {clojure.java-time/clojure.java-time {:mvn/version "0.3.2"}
+         com.datomic/dev-local               {:mvn/version "0.9.232"}
+         org.clojure/data.xml                {:mvn/version "0.0.8"}
+         org.clojure/data.zip                {:mvn/version "1.0.0"}}}
