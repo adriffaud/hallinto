@@ -4,6 +4,7 @@
             [clojure.java.io :as io]
             [clojure.zip :as zip]
             [datomic.client.api :as d]
+            [fr.driffaud.hallinto.datomic :as db]
             [fr.driffaud.hallinto.utils :as utils]
             [java-time :as t]))
 
@@ -18,11 +19,6 @@
 
 ; ==============================================================================
 ; Accounts schema
-(def client (d/client {:server-type :dev-local
-                       :system      "dev"}))
-
-(def conn (d/connect client {:db-name "hallinto"}))
-
 (def schema [;; Accounts
              {:db/ident       :account/id
               :db/valueType   :db.type/long
@@ -75,14 +71,12 @@
              {:db/ident :acconut.type/maxvalue}])
 
 (comment
-  (d/list-databases client {})
-
-  (d/transact conn {:tx-data schema})
+  (d/transact (db/get-conn) {:tx-data schema})
 
   (d/q '[:find (pull ?account [*])
          :where
          [?account :account/name]]
-       (d/db conn)))
+       (d/db (db/get-conn))))
 
 ; ==============================================================================
 ; Homebank file parsing
