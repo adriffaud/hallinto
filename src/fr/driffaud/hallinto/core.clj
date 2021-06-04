@@ -1,10 +1,9 @@
 (ns fr.driffaud.hallinto.core
-  (:require [clojure.data.xml :as xml]
-            [clojure.data.zip.xml :as zip-xml]
+  (:require [clojure.data.zip.xml :as zip-xml]
             [clojure.java.io :as io]
             [clojure.string :as string]
-            [clojure.zip :as zip]
             [datomic.client.api :as d]
+            [fr.driffaud.hallinto.utils :as utils]
             [java-time :as t]))
 
 ;; =============================================================================
@@ -85,14 +84,6 @@
 
 ;; =============================================================================
 ;; GPX parsing
-(defn get-xml-root
-  "Given a file absolute path, returns the zipped root XML element."
-  [filename]
-  (-> filename
-      io/reader
-      xml/parse
-      zip/xml-zip))
-
 (defn map-point
   [p]
   {:track.point/time      (-> p
@@ -109,10 +100,10 @@
                               (zip-xml/xml1-> :extensions :TrackPointExtension :speed #(keep :content %))
                               first
                               Float/parseFloat)
-   :track.point/heartrate (-> p
-                              (zip-xml/xml1-> :extensions :TrackPointExtension :hr #(keep :content %))
-                              first
-                              Integer/parseInt)})
+   :track.point/heartrate (some-> p
+                                  (zip-xml/xml1-> :extensions :TrackPointExtension :hr #(keep :content %))
+                                  first
+                                  Integer/parseInt)})
 
 (defn convert-gpx
   [root]
@@ -124,7 +115,7 @@
 (defn convert-file
   [filename]
   (-> filename
-      get-xml-root
+      utils/get-xml-root
       convert-gpx))
 
 (defn convert-files
